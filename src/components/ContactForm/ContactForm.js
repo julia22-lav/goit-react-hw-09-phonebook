@@ -1,82 +1,84 @@
-import { Component } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
-import { connect } from 'react-redux';
 import operations from '../../redux/contacts/contacts-operations';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
-  onChange = event => {
-    // this.reset();
+export default function ContactForm() {
+  // state = {
+  //   name: '',
+  //   number: '',
+  // const [contact, setContact] = useState({
+  //   name: '',
+  //   number: '',
+  // });
+
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const dispatch = useDispatch();
+
+  const onSubmit = useCallback(
+    contact => dispatch(operations.addContact(contact)),
+    [dispatch],
+  );
+
+  const onNameChange = event => {
     event.preventDefault();
-
-    console.dir(event.currentTarget);
-    const { value, name } = event.currentTarget;
-    const currentState = this.state;
-    const upadateState = { [name]: value };
-    this.setState({ ...currentState, ...upadateState });
+    setName(event.target.value);
   };
 
-  onSubmit = event => {
+  const onNumberChange = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
-    this.reset();
-    event.currentTarget.value = '';
+    setNumber(event.target.value);
   };
 
-  reset = () => {
-    this.setState({
-      name: '',
-      number: '',
-    });
+  const handleSubmit = event => {
+    event.preventDefault();
+    onSubmit({ name, number });
+    reset();
   };
 
-  render() {
-    return (
-      <Form onSubmit={this.onSubmit} className={s.Form}>
-        <Form.Group controlId="formBasicName">
-          <Form.Label className={s.TextLabel}>Name</Form.Label>
-          <Form.Control
-            className={s.FormControl}
-            type="name"
-            name="name"
-            value={this.state.name}
-            placeholder="Enter name"
-            onChange={this.onChange}
-          />
-        </Form.Group>
+  const reset = () => {
+    setName('');
+    setNumber('');
+  };
 
-        <Form.Group controlId="formBasicNumber">
-          <Form.Label className={s.TextLabel}>Number</Form.Label>
-          <Form.Control
-            className={s.FormControl}
-            type="tel"
-            name="number"
-            placeholder="Enter phone number"
-            value={this.state.number}
-            onChange={this.onChange}
-          />
-        </Form.Group>
-        <Button className={s.Button} variant="primary" type="submit">
-          Add contact
-        </Button>
-      </Form>
-    );
-  }
+  return (
+    <Form onSubmit={handleSubmit} className={s.Form}>
+      <Form.Group controlId="formBasicName">
+        <Form.Label className={s.TextLabel}>Name</Form.Label>
+        <Form.Control
+          className={s.FormControl}
+          type="name"
+          name="name"
+          value={name}
+          placeholder="Enter name"
+          onChange={onNameChange}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formBasicNumber">
+        <Form.Label className={s.TextLabel}>Number</Form.Label>
+        <Form.Control
+          className={s.FormControl}
+          type="tel"
+          name="number"
+          placeholder="Enter phone number"
+          value={number}
+          onChange={onNumberChange}
+        />
+      </Form.Group>
+      <Button className={s.Button} variant="primary" type="submit">
+        Add contact
+      </Button>
+    </Form>
+  );
 }
 
 ContactForm.propTypes = {
   name: PropTypes.string,
   number: PropTypes.number,
 };
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: contact => dispatch(operations.addContact(contact)),
-});
-
-export default connect(null, mapDispatchToProps)(ContactForm);
