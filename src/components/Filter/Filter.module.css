@@ -1,0 +1,19 @@
+.labelFilter {
+  display: block;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.inputFilter {
+  display: block;
+  margin-right: 10px;
+  width: 250px;
+}
+
+.Button {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

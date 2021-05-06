@@ -1,0 +1,5 @@
+.AppBar {
+  display: flex;
+  padding-right: 35px;
+  justify-content: space-between;
+}

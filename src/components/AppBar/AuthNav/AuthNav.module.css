@@ -1,0 +1,19 @@
+.AuthNav {
+  display: block;
+  margin-left: auto;
+}
+
+.AuthNavLink {
+  margin-right: 25px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.NavLink {
+  color: black;
+  text-decoration: none;
+}
+
+.NavLinkActive {
+  color: purple;
+}
