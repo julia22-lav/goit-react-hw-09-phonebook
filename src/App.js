@@ -7,10 +7,6 @@ import { useDispatch } from 'react-redux';
 import PrivateRoute from './components/AppBar/PrivateRoute';
 import PublicRoute from './components/AppBar/PublicRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import ContactForm from './components/ContactForm';
-// import { v4 as genId } from 'uuid';
-// import ContactList from './components/ContactList';
-// import Filter from './components/Filter';
 
 const HomePage = lazy(() =>
   import('./pages/home-page' /*WebpackChunkName: HomePage */),
