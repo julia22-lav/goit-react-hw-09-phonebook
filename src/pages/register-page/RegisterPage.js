@@ -6,42 +6,25 @@ import Form from 'react-bootstrap/Form';
 import s from './RegisterPage.module.css';
 
 function RegisterPage({ onRegister }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const reset = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
+    setUser({ name: '', email: '', password: '' });
   };
 
-  // handleChange = event => {
-  //   event.preventDefault();
-  //   const { name, value } = event.currentTarget;
-  //   const currentState = this.state;
-  //   const updateState = { [name]: value };
-  //   this.setState({ ...currentState, ...updateState });
-  // };
-
-  const handleNameChange = event => {
+  const handleChange = event => {
     event.preventDefault();
-    setName(event.target.value);
-  };
-
-  const handleEmailChange = event => {
-    event.preventDefault();
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = event => {
-    event.preventDefault();
-    setPassword(event.target.value);
+    const { name, value } = event.currentTarget;
+    setUser(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    onRegister({ name, email, password });
+    onRegister(user);
     reset();
   };
 
@@ -55,9 +38,9 @@ function RegisterPage({ onRegister }) {
             className={s.FormControl}
             type="name"
             name="name"
-            value={name}
+            value={user.name}
             placeholder="Enter name"
-            onChange={handleNameChange}
+            onChange={handleChange}
           />
         </Form.Group>
 
@@ -67,9 +50,9 @@ function RegisterPage({ onRegister }) {
             className={s.FormControl}
             type="email"
             name="email"
-            value={email}
+            value={user.email}
             placeholder="Enter email"
-            onChange={handleEmailChange}
+            onChange={handleChange}
           />
         </Form.Group>
 
@@ -80,8 +63,8 @@ function RegisterPage({ onRegister }) {
             type="password"
             name="password"
             placeholder="Password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={user.password}
+            onChange={handleChange}
           />
         </Form.Group>
         <Button className={s.Button} variant="primary" type="submit">

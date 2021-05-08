@@ -7,16 +7,10 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 
 export default function ContactForm() {
-  // state = {
-  //   name: '',
-  //   number: '',
-  // const [contact, setContact] = useState({
-  //   name: '',
-  //   number: '',
-  // });
-
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [contact, setContact] = useState({
+    name: '',
+    number: '',
+  });
 
   const dispatch = useDispatch();
 
@@ -25,25 +19,20 @@ export default function ContactForm() {
     [dispatch],
   );
 
-  const onNameChange = event => {
-    event.preventDefault();
-    setName(event.target.value);
+  const reset = () => {
+    setContact({ name: '', number: '' });
   };
 
-  const onNumberChange = event => {
+  const onChange = event => {
     event.preventDefault();
-    setNumber(event.target.value);
+    const { name, value } = event.currentTarget;
+    setContact(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    onSubmit({ name, number });
+    onSubmit(contact);
     reset();
-  };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
   };
 
   return (
@@ -54,9 +43,9 @@ export default function ContactForm() {
           className={s.FormControl}
           type="name"
           name="name"
-          value={name}
+          value={contact.name}
           placeholder="Enter name"
-          onChange={onNameChange}
+          onChange={onChange}
         />
       </Form.Group>
 
@@ -67,8 +56,8 @@ export default function ContactForm() {
           type="tel"
           name="number"
           placeholder="Enter phone number"
-          value={number}
-          onChange={onNumberChange}
+          value={contact.number}
+          onChange={onChange}
         />
       </Form.Group>
       <Button className={s.Button} variant="primary" type="submit">
